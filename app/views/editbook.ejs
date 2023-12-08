@@ -144,7 +144,7 @@
                     id_library: document.getElementById('id_library').value,
                 };
 
-                console.log(formData);
+
                 try {
                     // Envoyer les données au serveur en tant que JSON
                     const response = await fetch('/book/update', {
@@ -154,9 +154,9 @@
                         },
                         body: JSON.stringify(formData)
                     });
-                    console.log('hello');
+ 
 
-                    window.location.href = '/scrap';
+                    window.location.reload();
 
                 } catch (error) {
 

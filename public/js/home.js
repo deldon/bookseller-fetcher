@@ -27,7 +27,7 @@ const app = {
       });
 
       const data = await response.json();
-      console.log("Réponse du serveur :", data);
+
       return data;
     } catch (error) {
       console.error("Erreur lors de la requête Fetch :", error);

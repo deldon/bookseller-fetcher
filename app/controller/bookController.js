@@ -24,8 +24,6 @@ module.exports = {
       book.color = color;
       return book;
     });
-
-    console.log(data);
     res.render("scrap", data);
   },
   selectBookById: async (req, res, next) => {

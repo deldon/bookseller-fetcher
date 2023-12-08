@@ -51,7 +51,7 @@
                 scanDate: document.getElementById('scanDate').value,
                 id_converted: document.getElementById('id_converted').value,
             };
-            console.log(formData);
+
 
             try {
                 // Envoyer les données au serveur en tant que JSON
@@ -62,7 +62,7 @@
                     },
                     body: JSON.stringify(formData)
                 });
-                console.log('hello');
+    
 
                 window.location.href = '/';
 

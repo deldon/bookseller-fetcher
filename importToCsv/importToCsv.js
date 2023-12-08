@@ -20,7 +20,7 @@ const app = {
     try {
       let books = await app.read("./importToCsv/books-30-11-23.csv");
 
-      books = books.filter((e) => e.box == "102");
+      books = books.filter((e) => e.box == "103");
 
 
       for (const book of books) {

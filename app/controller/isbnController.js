@@ -24,7 +24,6 @@ module.exports = {
 
     try {
       const data = await datamapper.selectIsbnById(id)
-      console.log(data);
       res.render('editisbn',{data})
     } catch (error) {
       console.log(error);

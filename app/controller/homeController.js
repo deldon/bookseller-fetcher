@@ -9,31 +9,24 @@ module.exports = {
     const requset = req.body;
 
     requset.scan_date = dayjs().format("DD/MM/YY");
-    console.log(requset);
-    let nData
-    try {
-        const data = await datamapper.insertIsbn(requset);
-         nData = await datamapper.selectIsbnNotScrap()
-    } catch (error) {
-        nData = 'error'
-    }
-    
 
-   
+    let nData;
+    try {
+      const data = await datamapper.insertIsbn(requset);
+      nData = await datamapper.selectIsbnNotScrap();
+    } catch (error) {
+      nData = "error";
+    }
 
     res.json(nData);
   },
   selectIsbnNotScrap: async (req, res, next) => {
-    let nData
+    let nData;
     try {
-        
-         nData = await datamapper.selectIsbnNotScrap()
+      nData = await datamapper.selectIsbnNotScrap();
     } catch (error) {
-        nData = 'error'
+      nData = "error";
     }
-    
-
-   
 
     res.json(nData);
   },

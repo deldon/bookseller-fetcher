@@ -121,7 +121,6 @@ insertBook: ({
       id_library,
       id
     ]
-    console.log(array);
 
     return new Promise((resolve, reject) => {
       db.run(
