@@ -1,0 +1,23 @@
+{
+  "name": "bookseller_fetcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "addnew.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sql": "node ./app/bdd/init.js",
+    "csv": "node ./importToCsv/importToCsv.js",
+    "scrap": "node ./scrapper/scrapper.js",
+    "dev": "node-dev index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "csvtojson": "^2.0.10",
+    "dayjs": "^1.11.10",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "terminal-kit": "^3.0.1"
+  }
+}

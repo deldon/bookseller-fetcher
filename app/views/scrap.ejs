@@ -1,0 +1,48 @@
+<%- include('./partials/header') %>
+
+<h1>Scrap</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Isbn</th>
+        <th>Titre</th>
+        <th>Auteurs</th>
+        <th>Date de publication</th>
+        <th>Prix</th>
+        <th>Boîte</th>
+        <th>Date de scan</th>
+        <th>  </th>
+        <th>    </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(function(book) { %>
+        <tr class="<%= book.color %>">
+          <td><%= book.id %></td>
+          <td><%= book.isbn %></td>
+          <td><%= book.title %></td>
+          <td><%= book.authors %></td>
+          <td><%= book.published_date %></td>
+          <td><%= book.price %>€</td>
+          <td><%= book.box %></td>
+          <td><%= book.scan_date %></td>
+          <td>
+            <a href="/scrap/<%= book.id %>" class="btn btn-warning btn-sm">
+                <i class="fas fa-edit"></i>
+            </a>
+        </td>
+        <td>
+            <!-- Bouton de suppression avec lien -->
+            <a href="/book/delete/<%= book.id %>" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+            </td>
+        </tr>
+      <% }); %>
+    </tbody>
+</table>
+
+
+
+<%- include('./partials/footer') %>

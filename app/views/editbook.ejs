@@ -1,0 +1,168 @@
+<%- include('./partials/header') %>
+
+
+
+    <h1>edit book <%= data.id %>
+    </h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+
+                <form id="bookForm">
+
+                    <div class="form-group">
+                        <label for="title">Titre:</label>
+                        <input type="text" class="form-control" id="title" name="title" value="<%= data.title %>"
+                            >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authors">Auteurs:</label>
+                        <input type="text" class="form-control" id="authors" name="authors" value="<%= data.authors %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="thumbnail">Thumbnail URL:</label>
+                        <input type="url" class="form-control" id="thumbnail" name="thumbnail"
+                            value="<%= data.thumbnail %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" id="description"
+                            name="description"><%= data.description %></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="published_date">Date de publication:</label>
+                        <input type="text" class="form-control" id="published_date" name="published_date"
+                            value="<%= data.published_date %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Prix:</label>
+                        <input type="number" step="0.01" class="form-control" id="price" name="price"
+                            value="<%= data.price %>">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="number_of_pages">Nombre de pages:</label>
+                        <input type="number" class="form-control" id="number_of_pages" name="number_of_pages"
+                            value="<%= data.number_of_pages %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editor">Editeur:</label>
+                        <input type="text" class="form-control" id="editor" name="editor" value="<%= data.editor %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" class="form-control" id="isbn" name="isbn" value="<%= data.isbn %>" readonly>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="box">Boîte:</label>
+                        <input type="number" class="form-control" id="box" name="box" value="<%= data.box %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scan_date">Date de scan:</label>
+                        <input type="text" class="form-control" id="scan_date" name="scan_date"
+                            value="<%= data.scan_date %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="format">Format:</label>
+                        <input type="text" class="form-control" id="format" name="format" value="<%= data.format %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book_weight">Poids du livre:</label>
+                        <input type="text" class="form-control" id="book_weight" name="book_weight"
+                            value="<%= data.book_weight %>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="id" value="<%= data.id %>" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_library">ID de la bibliothèque:</label>
+                        <input type="text" class="form-control" id="id_library" name="id_library"
+                            value="<%= data.id_library %>">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                </form>
+
+            </div>
+            <div class="col-sm">
+                <img src="<%= data.thumbnail %>" class="rounded mx-auto d-block mb-3" alt="...">
+                <a href="https://www.recyclivre.com/search?q=<%= data.isbn %>" target="_blank"><button type="button"
+                        class="btn btn-primary">recyclivre</button>
+                </a>
+                <a href="https://www.chasse-aux-livres.fr/search?query=<%= data.isbn %>&catalog=fr"
+                    target="_blank"><button type="button" class="btn btn-primary">chase au livre</button>
+                </a>
+                <a href="https://www.google.com/search?q=<%= data.authors %>+<%= data.title %>" target="_blank"><button
+                        type="button" class="btn btn-primary">google</button>
+                </a>
+
+
+
+            </div>
+
+        </div>
+
+        <script>
+            document.getElementById('bookForm').addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                // Récupérer les valeurs des champs
+                const formData = {
+                    id: document.getElementById('id').value,
+                    title: document.getElementById('title').value,
+                    authors: document.getElementById('authors').value,
+                    thumbnail: document.getElementById('thumbnail').value,
+                    description: document.getElementById('description').value,
+                    published_date: document.getElementById('published_date').value,
+                    number_of_pages: document.getElementById('number_of_pages').value,
+                    editor: document.getElementById('editor').value,
+                    isbn: document.getElementById('isbn').value,
+                    price: document.getElementById('price').value,
+                    format: document.getElementById('format').value,
+                    book_weight: document.getElementById('book_weight').value,
+                    box: document.getElementById('box').value,
+                    scan_date: document.getElementById('scan_date').value,
+                    id_library: document.getElementById('id_library').value,
+                };
+
+                console.log(formData);
+                try {
+                    // Envoyer les données au serveur en tant que JSON
+                    const response = await fetch('/book/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    console.log('hello');
+
+                    window.location.href = '/scrap';
+
+                } catch (error) {
+
+                }
+            });
+        </script>
+
+
+        <%- include('./partials/footer') %>

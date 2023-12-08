@@ -1,0 +1,77 @@
+<%- include('./partials/header') %>
+
+
+
+    <h1>isbn </h1>
+    <form id="updateForm">
+        <!-- Champ de l'ID (non modifiable) -->
+        <div class="mb-3">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" value="<%= data.id %>" readonly>
+        </div>
+
+        <!-- Champ d'ISBN (non modifiable) -->
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input value="<%= data.isbn %>" type="text" class="form-control" id="isbn" pattern="^\d{13}$"
+                placeholder="Entrez 13 chiffres" required>
+        </div>
+
+        <!-- Champ de la boîte -->
+        <div class="mb-3">
+            <label for="box" class="form-label">Boîte</label>
+            <input type="number" class="form-control" id="box" value="<%= data.box %>" required>
+        </div>
+
+        <!-- Champ de la date de numérisation -->
+        <div class="mb-3">
+            <label for="scanDate" class="form-label">Date de numérisation</label>
+            <input value="<%= data.scan_date %>" type="text" class="form-control" id="scanDate"
+                pattern="\d{2}/\d{2}/\d{2}" placeholder="DD/MM/YY" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_converted" class="form-label">Id converted</label>
+            <input value="<%= data.id_converted %>" type="text" class="form-control" id="id_converted" required>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <button type="button" class="btn btn-primary" onclick="submitForm()">Mettre à jour</button>
+    </form>
+
+
+    <script>
+        async function submitForm() {
+            // Récupérer les données du formulaire
+
+            const formData = {
+                id: document.getElementById('id').value,
+                isbn: document.getElementById('isbn').value,
+                box: document.getElementById('box').value,
+                scanDate: document.getElementById('scanDate').value,
+                id_converted: document.getElementById('id_converted').value,
+            };
+            console.log(formData);
+
+            try {
+                // Envoyer les données au serveur en tant que JSON
+                const response = await fetch('/isbn/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                console.log('hello');
+
+                window.location.href = '/';
+
+            } catch (error) {
+
+            }
+
+        }
+    </script>
+
+
+    <%- include('./partials/footer') %>

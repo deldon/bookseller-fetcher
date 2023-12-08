@@ -1,0 +1,34 @@
+<%- include('./partials/header') %>
+
+<h1>Import</h1>
+
+<form id="myForm">
+    <div class="mb-3">
+        <label for="box" class="form-label">Box :</label>
+        <input type="number" class="form-control" id="box" name="box"  required>
+    </div>
+    <div class="mb-3">
+        <label for="isbn" class="form-label">ISBN :</label>
+        <input type="text" class="form-control" id="isbn" name="isbn"  required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ISBN</th>
+            <th>Box</th>
+            <th>Scan Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+
+    <script src="/js/home.js"></script>
+
+<%- include('./partials/footer') %>
