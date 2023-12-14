@@ -1,41 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Bootstrap Page</title>
     <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
 
+        #sidebar {
+            height: 100vh;
+            position: fixed;
+            background-color: #343a40;
+            padding-top: 20px;
+            color: white;
+        }
+
+        #sidebar .navbar-brand {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        #sidebar .nav-link {
+            padding: 8px 20px;
+            color: #adb5bd;
+        }
+
+        #sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+
+        #sidebar .nav-item.active>.nav-link {
+            background-color: #495057;
+        }
+
+        #sidebar .nav-second-level {
+            padding-left: 20px;
+        }
+
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        main {
+            margin-left: 260px;
+        }
+    </style>
 </head>
-<body >
+
+<body>
 
     <div class="container-fluid">
-        <div class="row">
+        <div id="base" class="row">
             <!-- Menu à gauche -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Mon Site</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
+
+
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block">
+                <a class="navbar-brand" href="#">BookScraper</a>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ajouter des livres</a>
+                        <ul class="nav flex-column nav-second-level">
                             <li class="nav-item">
                                 <a class="nav-link active" href="/">Import</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/scrap">scrap</a>
+                                <a class="nav-link active" href="/isbn/scrap">isbn scrap</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Scrapper</a>
+                        <ul class="nav flex-column nav-second-level">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/scrap">Tous les livre scraper</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/serror">Voir les scrapp error</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Page 2</a>
+                                <a class="nav-link" href="/sid">Liste des scraps</a>
                             </li>
-                            <!-- Ajoutez d'autres éléments de menu selon vos besoins -->
+
                         </ul>
-                    </div>
-                </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Fetcher</a>
+                        <ul class="nav flex-column nav-second-level">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/scrap/not">Tous les Fetcher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/import">Tous les import sur le site</a>
+                            </li>
+
+               
+
+                        </ul>
+                    </li>
+
+                </ul>
             </nav>
 
-            <!-- Contenu principal -->
+
+
+            <!-- <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+
+                <div class="sidebar-sticky">
+                    <a class="navbar-brand" href="#">Mon Site</a>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/">Import</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/scrap">scrap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/serror">scrap error</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav> -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-         
+                <!-- Votre contenu va ici -->

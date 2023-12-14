@@ -15,6 +15,8 @@ db.serialize(() => {
 
   db.run(`CREATE TABLE IF NOT EXISTS book (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_scrap TEXT,
+    id_import TEXT,
     title TEXT,
     authors TEXT,
     thumbnail TEXT,
@@ -31,6 +33,8 @@ db.serialize(() => {
     id_library INTEGER
 );`);
 });
+
+console.log('-> init sql');
 
 // Fermer la connexion après la création de la table
 db.close();

@@ -7,6 +7,10 @@ module.exports = {
 
     res.render("isbn", data);
   },
+  getIsbnScrap: async (req, res, next) => {
+    data = await datamapper.selectIsbnScrap()
+    res.render("isbnScrapped", data);
+  },
   deleteIsbn: async (req, res, next) => {
     const id = req.params.id;
 

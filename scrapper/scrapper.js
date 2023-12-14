@@ -2,18 +2,23 @@ const isbnDataMapper = require("../app/datamapper/isbnDataMapper");
 const scrapDataMapper = require("./scrapDataMapper");
 const apiDataMapper = require("./apiDataMapper");
 
-const bookDataMapper = require("../app/datamapper/bookDataMapper")
+const bookDataMapper = require("../app/datamapper/bookDataMapper");
 const dayjs = require("dayjs");
+const { v4: uuidv4 } = require("uuid");
 
 const app = {
-    attendre: async (time) => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(); // La promesse est résolue après une seconde
-          }, time); // 1000 millisecondes équivalent à une seconde
-        });
-      },
+  uuid : uuidv4(),
+  attendre: async (time) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(); // La promesse est résolue après une seconde
+      }, time); // 1000 millisecondes équivalent à une seconde
+    });
+  },
   init: async () => {
+    
+
+    console.log("START SCRAP : " + app.uuid);
     try {
       const isbn = await isbnDataMapper.selectIsbnNotScrap();
       for (const book of isbn) {
@@ -90,13 +95,10 @@ const app = {
       dataBook.book_weight = null;
       dataBook.box = Number(book.box);
       dataBook.scan_date = book.scan_date;
+      dataBook.id_scrap = app.uuid;
 
-
-
-      const bookId = await bookDataMapper.insertBook(dataBook)
-      const converted = await isbnDataMapper.updateIdConverted(book.id,bookId)
-
-
+      const bookId = await bookDataMapper.insertBook(dataBook);
+      const converted = await isbnDataMapper.updateIdConverted(book.id, bookId);
     } catch (error) {
       console.log(error);
     }

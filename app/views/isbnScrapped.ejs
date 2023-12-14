@@ -1,0 +1,38 @@
+<%- include('./partials/header') %>
+
+  <h1>isbn Scrap</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>isbn</th>
+        <th>box</th>
+        <th>date scan</th>
+        <th>edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(function(item) { %>
+        <tr>
+        <td><%= item.id %></td>
+        <td><%= item.isbn %></td>
+        <td><%= item.box %></td>
+        <td><%= item.scan_date %></td>
+        <td>
+        <a href="/isbn/<%= item.id %>" class="btn btn-warning btn-sm">
+            <i class="fas fa-edit"></i>
+        </a>
+        
+        <!-- Bouton de suppression avec lien -->
+        <a href="/isbn/delete/<%= item.id %>" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+        </td>
+      </tr>
+        <% }); %>
+    </tbody>
+  </table>
+
+
+
+  <%- include('./partials/footer') %>

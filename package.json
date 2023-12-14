@@ -8,6 +8,7 @@
     "sql": "node ./app/bdd/init.js",
     "csv": "node ./importToCsv/importToCsv.js",
     "scrap": "node ./scrapper/scrapper.js",
+    "fetch": "node ./fetcher/fetcher.js ",
     "dev": "node-dev index.js"
   },
   "author": "",
@@ -18,6 +19,8 @@
     "dayjs": "^1.11.10",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "terminal-kit": "^3.0.1"
+    "node-fetch": "^2.7.0",
+    "terminal-kit": "^3.0.1",
+    "uuid": "^9.0.1"
   }
 }

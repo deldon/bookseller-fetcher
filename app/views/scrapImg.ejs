@@ -1,6 +1,6 @@
 <%- include('./partials/header') %>
 
-<h1>Scrap</h1>
+<h1>Scrap IMG</h1>
 <table class="table">
     <thead>
       <tr>
@@ -23,6 +23,7 @@
       <% data.forEach(function(book) { %>
         <tr class="<%= book.color %>">
           <td><%= book.id %></td>
+          <td> <img src="<%= book.thumbnail %>" alt="" height="120" width="75"> </td>
           <td><%= book.isbn %></td>
           
           <td><%= book.title %></td>

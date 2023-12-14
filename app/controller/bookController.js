@@ -24,18 +24,124 @@ module.exports = {
       book.color = color;
       return book;
     });
+    res.render("scrapImg", data);
+  },
+
+  selectBookFetch: async (req, res, next) => {
+    data = await dataMapper.selectBookFetch();
+
+    data.map((book) => {
+      let color = "table-light";
+
+      if (book.description == null || book.published_date == null) {
+        color = "table-warning";
+      }
+
+      if (
+        book.title == null ||
+        book.authors === "n/a" ||
+        book.thumbnail == null ||
+        book.price == null
+      ) {
+        color = "table-danger";
+      }
+
+      book.color = color;
+      return book;
+    });
     res.render("scrap", data);
+  },
+
+  allIdScrap: async (req, res, next) => {
+    data = await dataMapper.allIdScrap();
+    console.log(data);
+    res.render("scrapId", data);
+  },
+
+  allIdImport: async (req, res, next) => {
+    data = await dataMapper.allIdImport();
+    console.log(data);
+    res.render("importId", data);
+  },
+
+  deleteIdScrap: async (req, res, next) => {
+    const uuid = req.params.uuid;
+    await dataMapper.updateIdScrap(uuid);
+    await dataMapper.deleteIdScrap(uuid);
+
+    res.redirect("/sid");
+  },
+  selectBookNotFetchError: async (req, res, next) => {
+    const data = await dataMapper.selectBookNotFetch();
+
+    data.map((book) => {
+      book.color = "table-danger";
+      return book;
+    });
+
+    const nData = data.filter((book) => {
+      return (
+        book.title == null ||
+        book.authors === "n/a" ||
+        book.thumbnail == null ||
+        book.price == null
+      );
+    });
+    res.render("scrap", { data: nData });
   },
   selectBookById: async (req, res, next) => {
     const id = req.params.id;
 
     try {
-      const data = await dataMapper.selectBookById(id);
+      const book = await dataMapper.selectBookById(id);
 
-      res.render("editbook", { data });
+      let color = "bg-light";
+
+      if (book.description == null || book.published_date == null) {
+        color = "bg-warning-subtle";
+      }
+
+      if (
+        book.title == null ||
+        book.authors === "n/a" ||
+        book.thumbnail == null ||
+        book.price == null
+      ) {
+        color = "bg-danger";
+      }
+
+      book.color = color;
+
+      res.render("editbook", { data: book });
     } catch (error) {
       console.log(error);
     }
+  },
+  selectBookByScrapId: async (req, res, next) => {
+    const id = req.params.id;
+
+    data = await dataMapper.selectBookByScrapId(id);
+
+    data.map((book) => {
+      let color = "table-light";
+
+      if (book.description == null || book.published_date == null) {
+        color = "table-warning";
+      }
+
+      if (
+        book.title == null ||
+        book.authors === "n/a" ||
+        book.thumbnail == null ||
+        book.price == null
+      ) {
+        color = "table-danger";
+      }
+
+      book.color = color;
+      return book;
+    });
+    res.render("scrap", data);
   },
   updateBook: async (req, res, next) => {
     const data = req.body;

@@ -32,6 +32,20 @@ const datamapper = {
       );
     });
   },
+  selectIsbnScrap: () => {
+    return new Promise((resolve, reject) => {
+      db.all(
+        "SELECT id ,isbn, box, scan_date FROM isbn WHERE id_converted IS NOT NULL order by id desc",
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        }
+      );
+    });
+  },
   selectIsbnById: (id) => {
     return new Promise((resolve, reject) => {
       db.all("SELECT * FROM isbn WHERE id = ?", [id], (err, rows) => {

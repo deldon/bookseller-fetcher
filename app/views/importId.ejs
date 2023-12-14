@@ -1,0 +1,35 @@
+<%- include('./partials/header') %>
+
+  <h1>Liste des Import (fetch)</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach(function(scrap) { %>
+        <tr >
+          <td>
+           <a href="/import/<%= scrap.id_import %>"><%= scrap.id_import %></a> 
+          </td>
+          <td>
+            <%= scrap.scan_date %>
+          </td>
+          <td>
+            <!-- Bouton de suppression avec lien -->
+            <a href="/import/delete/<%= scrap.id_import %>" class="btn btn-danger btn-sm">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </td>
+
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
+
+
+
+  <%- include('./partials/footer') %>
