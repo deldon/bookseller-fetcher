@@ -63,11 +63,16 @@ const datamapper = {
       );
     });
   },
-  selectBookNotFetch: () => {
+  selectBookNotFetch: (offset,limit) => {
     return new Promise((resolve, reject) => {
       db.all(
-        "SELECT * FROM book WHERE id_library IS NULL order by id desc",
-        (err, rows) => {
+        `SELECT *
+        FROM book
+        WHERE id_library IS NULL
+        ORDER BY id DESC
+        LIMIT ? OFFSET ?`,
+        [limit,offset],
+        (err,rows)=> {
           if (err) {
             reject(err);
           } else {

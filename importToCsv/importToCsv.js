@@ -20,10 +20,13 @@ const app = {
     try {
       let books = await app.read("./importToCsv/books-30-11-23.csv");
 
-      books = books.filter((e) => e.box == 120);
 
+    //  books = books.filter((e) => e.box == 4);
 
+   
       for (const book of books) {
+
+
 
         const nBook = {
             isbn:book.isbn,

@@ -1,54 +1,91 @@
 <%- include('./partials/header') %>
 
-<h1>Scrap IMG</h1>
-<table class="table">
+  <h1>Scrap IMG</h1>
+
+  <div class="page-navigation">
+    <a href="http://localhost:3066/scrap?p=<%= data.page.pres %>"><button class="btn btn-primary">&lt;
+        Précédent</button></a>
+    <span class="page-name">
+      <%= data.page.current %>
+    </span>
+    <a href="http://localhost:3066/scrap?p=<%= data.page.next %>"><button class="btn btn-primary">Suivant
+        &gt;</button></a>
+  </div>
+
+
+  <table class="table">
     <thead>
       <tr>
         <th>ID</th>
         <th>Isbn</th>
-      
+
         <th>Titre</th>
-        
+
         <th>Auteurs</th>
         <th>Date de publication</th>
         <th>Prix</th>
         <th>Boîte</th>
         <th>Date de scan</th>
-        <th>  </th>
-        <th>    </th>
+        <th> </th>
+        <th> </th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <% data.forEach(function(book) { %>
         <tr class="<%= book.color %>">
-          <td><%= book.id %></td>
+          <td>
+            <%= book.id %>
+          </td>
           <td> <img src="<%= book.thumbnail %>" alt="" height="120" width="75"> </td>
-          <td><%= book.isbn %></td>
-          
-          <td><%= book.title %></td>
-          <td><%= book.authors %></td>
-          <td><%= book.published_date %></td>
-          <td><%= book.price %>€</td>
-          <td><%= book.box %></td>
-          <td><%= book.scan_date %></td>
+          <td>
+            <%= book.isbn %>
+          </td>
+
+          <td>
+            <%= book.title %>
+          </td>
+          <td>
+            <%= book.authors %>
+          </td>
+          <td>
+            <%= book.published_date %>
+          </td>
+          <td>
+            <%= book.price %>€
+          </td>
+          <td>
+            <%= book.box %>
+          </td>
+          <td>
+            <%= book.scan_date %>
+          </td>
           <td>
             <a href="/scrap/<%= book.id %>" class="btn btn-warning btn-sm">
-                <i class="fas fa-edit"></i>
+              <i class="fas fa-edit"></i>
             </a>
-        </td>
-        <td>
+          </td>
+          <td>
             <!-- Bouton de suppression avec lien -->
             <a href="/book/delete/<%= book.id %>" class="btn btn-danger btn-sm">
-                <i class="fas fa-trash-alt"></i>
+              <i class="fas fa-trash-alt"></i>
             </a>
-            </td>
-            
+          </td>
+
         </tr>
-      <% }); %>
+        <% }); %>
     </tbody>
-</table>
+  </table>
+  <div class="page-navigation">
+    <a href="http://localhost:3066/scrap?p=<%= data.page.pres %>"><button class="btn btn-primary">&lt;
+        Précédent</button></a>
+    <span class="page-name">
+      <%= data.page.current %>
+    </span>
+    <a href="http://localhost:3066/scrap?p=<%= data.page.next %>"><button class="btn btn-primary">Suivant
+        &gt;</button></a>
+  </div>
 
 
 
-<%- include('./partials/footer') %>
+  <%- include('./partials/footer') %>

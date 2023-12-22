@@ -3,8 +3,19 @@ const dayjs = require("dayjs");
 
 module.exports = {
   selectBookNotFetch: async (req, res, next) => {
-    data = await dataMapper.selectBookNotFetch();
+    let p = Number(req.query.p);
+    let nbForP = 50;
+    if (!p) {
+      p = 0;
+      nbForP = 1;
+    }
 
+    data = await dataMapper.selectBookNotFetch(p * nbForP, nbForP);
+    data.page = {
+      current: p,
+      next: Number(p) + 1,
+      pres: Number(p) - 1,
+    };
     data.map((book) => {
       let color = "table-light";
 
@@ -72,7 +83,7 @@ module.exports = {
     res.redirect("/sid");
   },
   selectBookNotFetchError: async (req, res, next) => {
-    const data = await dataMapper.selectBookNotFetch();
+    const data = await dataMapper.selectBookNotFetch(0,-1);
 
     data.map((book) => {
       book.color = "table-danger";

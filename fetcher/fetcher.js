@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const app = {
   uuid:uuidv4(),
   post: async (body) => {
-    const response = await fetch("http://localhost:5001/import", {
+    const response = await fetch("https://lireencore.fr/api/import", {
       method: "post",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
