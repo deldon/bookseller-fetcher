@@ -4,8 +4,10 @@ const { v4: uuidv4 } = require("uuid");
 
 const app = {
   uuid:uuidv4(),
+  url:"https://lireencore.fr/api/import",
+  urls:"http://localhost:5001/import",
   post: async (body) => {
-    const response = await fetch("https://lireencore.fr/api/import", {
+    const response = await fetch(app.url, {
       method: "post",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
@@ -16,7 +18,7 @@ const app = {
   },
   init: async () => {
     try {
-      const books = await bookDataMapper.selectBookNotFetch();
+      const books = await bookDataMapper.selectBookNotFetch(0,-1);
 
       for (const book of books) {
         try {
