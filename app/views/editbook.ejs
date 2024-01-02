@@ -8,7 +8,7 @@
     <div class="container <%= data.color %>">
         <h1>edit book <%= data.id %>
         </h1>
-        
+
 
         <div class="btn-group">
             <a href="/scrap/<%= data.id - 1 %>" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i></a>
@@ -128,21 +128,25 @@
                             value="<%= data.id_library %>">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Soumettre</button>
-                </form>
+
 
             </div>
             <div class="col-sm">
-                <img src="<%= data.thumbnail %>" class="rounded mx-auto d-block mb-3" alt="..." width="400">
-                <a href="https://www.recyclivre.com/search?q=<%= data.isbn %>" target="_blank"><button type="button"
-                        class="btn btn-primary">recyclivre</button>
-                </a>
+
+                <button type="submit" class="btn btn-success">Soumettre</button>
+                </form>
                 <a href="https://www.chasse-aux-livres.fr/search?query=<%= data.isbn %>&catalog=fr"
                     target="_blank"><button type="button" class="btn btn-primary">chase au livre</button>
                 </a>
+                <a href="https://www.recyclivre.com/search?q=<%= data.isbn %>" target="_blank"><button type="button"
+                        class="btn btn-primary">recyclivre</button>
+                </a>
+
                 <a href="https://www.google.com/search?q=<%= data.authors %>+<%= data.title %>" target="_blank"><button
                         type="button" class="btn btn-primary">google</button>
                 </a>
+                <img src="<%= data.thumbnail %>" class="rounded mx-auto d-block mb-3" alt="..." width="300">
+
 
 
 
@@ -152,8 +156,16 @@
 
         <script>
 
-            const fetchThumbnail = document.getElementById('refetch-thumbnail')
 
+            const inputThumbnail = document.getElementById('thumbnail')
+
+            inputThumbnail.addEventListener('input', async function (event) {
+                console.log(inputThumbnail.value.split('?')[0]);
+
+                inputThumbnail.value = inputThumbnail.value.split('?')[0]
+            })
+
+            const fetchThumbnail = document.getElementById('refetch-thumbnail')
             fetchThumbnail.addEventListener('click', async function (event) {
 
                 console.log('coucou');
