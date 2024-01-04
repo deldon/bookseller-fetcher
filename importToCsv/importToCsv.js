@@ -18,10 +18,10 @@ const app = {
     
   init: async () => {
     try {
-      let books = await app.read("./importToCsv/books-01-01-24.csv");
+      let books = await app.read("./importToCsv/books - 04-01.csv");
 
 
-     books = books.filter((e) => e.date == '16/12/23');
+    // books = books.filter((e) => e.date == '16/12/23');
 
    
       for (const book of books) {
