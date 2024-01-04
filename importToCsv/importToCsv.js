@@ -18,10 +18,10 @@ const app = {
     
   init: async () => {
     try {
-      let books = await app.read("./importToCsv/books-30-11-23.csv");
+      let books = await app.read("./importToCsv/books-01-01-24.csv");
 
 
-    //  books = books.filter((e) => e.box == 4);
+     books = books.filter((e) => e.date == '16/12/23');
 
    
       for (const book of books) {
@@ -33,6 +33,7 @@ const app = {
             box:book.box,
             scan_date:book.date
         }
+        console.log(nBook);
         
         await datamapper.insertIsbn(nBook)
       }

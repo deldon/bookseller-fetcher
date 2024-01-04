@@ -7,7 +7,7 @@ const dayjs = require("dayjs");
 const { v4: uuidv4 } = require("uuid");
 
 const app = {
-  uuid : uuidv4(),
+  uuid: uuidv4(),
   attendre: async (time) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -16,8 +16,6 @@ const app = {
     });
   },
   init: async () => {
-    
-
     console.log("START SCRAP : " + app.uuid);
     try {
       const isbn = await isbnDataMapper.selectIsbnNotScrap();
@@ -39,20 +37,34 @@ const app = {
     console.log(
       `-----------------------------------------------------------------------`
     );
+
     try {
       const dataBook = await apiDataMapper.getBook(book.isbn);
 
-      if (dataBook.title == null || dataBook.authors == null) {
-        const info = await scrapDataMapper.getInfo(book.isbn);
+      try {
+        const chasse = await scrapDataMapper.getChasse(book.isbn);
 
-        if (Object.entries(info).length !== 0) {
-          dataBook.title = info.title;
-          dataBook.authors = info.author;
-        } else {
-          dataBook.title = null;
-          dataBook.authors = "n/a";
+        if (dataBook.title == null || dataBook.authors == null) {
+          if (Object.entries(chasse).length !== 0) {
+            dataBook.title = chasse.title;
+            dataBook.authors = chasse.author;
+          } else {
+            dataBook.title = null;
+            dataBook.authors = "na";
+          }
         }
+
+        dataBook.thumbnail = chasse.thumbnail;
+
+        console.log(`Récupération du prix sur le site de recherche du livre`);
+        dataBook.price = chasse.price;
+
+      } catch (error) {
+        console.log(error);
       }
+     
+
+
 
       //ISBN
       dataBook.isbn = book.isbn;
@@ -67,29 +79,14 @@ const app = {
       }
 
       // Si la miniature n'existe pas, on la récupère
-      if (dataBook.thumbnail == null) {
-        try {
-          const newThumbnail = await scrapDataMapper.getThumbnail(book.isbn);
 
-          console.log(
-            `Récupération de la miniature sur le site de recherche du livre`
-          );
-          dataBook.thumbnail = newThumbnail;
-        } catch (error) {
-          console.log(`Erreur sur le site de recherche du livre : ${error}`);
-        }
-      }
+
 
       // On récupère le prix
-      try {
-        const price = await scrapDataMapper.getPrice(book.isbn);
-        console.log(`Récupération du prix sur le site de recherche du livre`);
-        dataBook.price = Number(price[0].moy.replace(",", "."));
-      } catch (error) {
-        console.log(
-          `Erreur sur le prix sur le site de recherche du livre : ${error}`
-        );
-      }
+
+
+
+
 
       dataBook.format = null;
       dataBook.book_weight = null;
@@ -99,6 +96,8 @@ const app = {
 
       const bookId = await bookDataMapper.insertBook(dataBook);
       const converted = await isbnDataMapper.updateIdConverted(book.id, bookId);
+
+
     } catch (error) {
       console.log(error);
     }

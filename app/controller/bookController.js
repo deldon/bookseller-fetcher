@@ -7,7 +7,7 @@ module.exports = {
     let nbForP = 50;
     if (!p) {
       p = 0;
-      nbForP = 1;
+      nbForP = 50;
     }
 
     data = await dataMapper.selectBookNotFetch(p * nbForP, nbForP);

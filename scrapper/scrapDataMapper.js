@@ -1,199 +1,108 @@
-const puppeteer = require("puppeteer");
+const { Builder, By, Key, until } = require("selenium-webdriver");
 const csv = require("csvtojson");
 
+
 module.exports = {
-  getPrice: async (isbn) => {
-    const browser = await puppeteer.launch({ headless: "new" }); // Ouvre un navigateur headless
-    const page = await browser.newPage(); // Ouvre une nouvelle page
-
-    await page.goto("https://www.chasse-aux-livres.fr/estimation-de-livres"); // Navigue vers une URL
-
-    const elementId = "isbns-form-textarea"; // Remplacez par l'ID de l'élément que vous souhaitez sélectionner.
-
-    const textareaElement = await page.$(`#${elementId}`);
-
-    if (textareaElement) {
-      // L'élément textarea a été trouvé par son ID.
-      await textareaElement.click(); // Cliquez sur le textarea pour le mettre en surbrillance.
-      await page.keyboard.type(isbn); // Écrivez le contenu.
-
-      // Pour enregistrer une capture d'écran avec le contenu écrit, vous pouvez ajouter :
-      // await page.screenshot({ path: 'capture.png' });
-    } else {
-      console.log(`Élément avec l'ID ${elementId} non trouvé.`);
-    }
-
-    const buttonId = "isbns-form-submit"; // Remplacez par l'ID du bouton que vous souhaitez cliquer.
-    await page.click(`#${buttonId}`);
-
-    await page.waitForSelector("#prices-table");
-
-    await page.waitForSelector("#table-resume > textarea", {
-      visible: true,
-      timeout: 200,
-    }); // Vous pouvez ajuster le sélecteur et le timeout selon vos besoins.
-
-    const textareaValue = await page.$eval(
-      "#table-resume > textarea",
-      (textarea) => textarea.value
-    );
-    // console.log(textareaValue);
-    await browser.close();
-
+  getChasse: async (isbn) => {
+    const driver = new Builder().forBrowser("chrome").build();
     try {
-      const jsonArray = await csv({
-        noheader: true,
-        delimiter: "auto",
-      }).fromString(textareaValue);
+     
+      await driver.get("https://www.chasse-aux-livres.fr/");
 
-      return jsonArray
-        .map((e) => {
-          return {
-            last: e.field2,
-            moy: e.field3,
-          };
-        })
-        .slice(1);
+      const monBouton = await driver.findElement(By.id("dashboard-top-link"));
+      await monBouton.click();
+
+      const email = await driver.findElement(By.id("email"));
+      await email.sendKeys("r.deldon@gmail.com");
+
+      const password = await driver.findElement(By.id("password"));
+      await password.sendKeys("z88csf");
+
+      const submit = await driver.findElement(
+        By.xpath('//*[@id="login"]/button')
+      );
+      await submit.click();
+
+      const home = await driver.findElement(
+        By.xpath('//*[@id="logo-top"]/img[1]')
+      );
+      await home.click();
+
+      const estim = await driver.findElement(
+        By.xpath('//*[@id="navbarSupportedContent"]/ul/li[6]/a')
+      );
+      await estim.click();
+
+      const textarea = await driver.findElement(
+        By.xpath('//*[@id="isbns-form-textarea"]')
+      );
+      await textarea.sendKeys(isbn);
+
+      const estimSub = await driver.findElement(
+        By.xpath('//*[@id="isbns-form-submit"]')
+      );
+      await estimSub.click();
+
+      const textareaXPath = '//*[@id="table-resume"]/textarea'; // Remplacez par votre propre XPath
+      const textareaElement = await driver.wait(
+        until.elementLocated(By.xpath(textareaXPath)),
+        10000
+      );
+
+      // Attendre que le textarea soit visible
+      await driver.wait(until.elementIsVisible(textareaElement), 10000);
+
+      // Récupérer le contenu du textarea
+      const contenuTextarea = await textareaElement.getAttribute("value");
+
+      const trumbnail = await driver.findElement(
+        By.xpath('//*[@id="prices-table"]/tbody/tr/td[1]/a[1]/img')
+      );
+
+      const thumbnail = await trumbnail.getAttribute("src");
+
+      const links = await driver.findElement(
+        By.xpath('//*[@id="prices-table"]/tbody/tr/td[1]/a[1]')
+      );
+
+      const link = await links.getAttribute("href");
+
+
+      await driver.get(link);
+
+      const bookTitle = await driver.findElement(
+        By.xpath('//*[@id="book-title-and-details"]/div[1]/h1[1]')
+      );
+
+      const title = await bookTitle.getText();
+
+      const bookAuthor = await driver.findElement(
+        By.xpath('//*[@id="creators"]/span/a')
+      );
+
+      const author = await bookAuthor.getText();
+      await driver.quit();
+
+
+      const data = {};
+
+      data.title = title;
+      data.author = author;
+      data.thumbnail = thumbnail.split("?")[0];
+      try {
+        const jsonArray = await csv({
+          noheader: true,
+          delimiter: "auto",
+        }).fromString(contenuTextarea);
+
+        data.price = Number(jsonArray[1].field3.replace(/,/g, "."));
+      } catch (error) {
+        console.error(error);
+      }
+
+      return data;
     } catch (error) {
-      console.error(error);
+      console.error("Une erreur s'est produite:", error);
     }
-  },
-  getThumbnail: async (isbn) => {
-    let imgUrl = null;
-    const browser = await puppeteer.launch({ headless: "new" }); // Ouvre un navigateur headless
-    const page = await browser.newPage(); // Ouvre une nouvelle page
-
-    await page.goto("https://www.chasse-aux-livres.fr/estimation-de-livres"); // Navigue vers une URL
-
-    const elementId = "isbns-form-textarea"; // Remplacez par l'ID de l'élément que vous souhaitez sélectionner.
-
-    const textareaElement = await page.$(`#${elementId}`);
-
-    if (textareaElement) {
-      // L'élément textarea a été trouvé par son ID.
-      await textareaElement.click(); // Cliquez sur le textarea pour le mettre en surbrillance.
-      await page.keyboard.type(isbn); // Écrivez le contenu.
-
-      // Pour enregistrer une capture d'écran avec le contenu écrit, vous pouvez ajouter :
-      // await page.screenshot({ path: 'capture.png' });
-    } else {
-      console.log(`Élément avec l'ID ${elementId} non trouvé.`);
-    }
-
-    const buttonId = "isbns-form-submit"; // Remplacez par l'ID du bouton que vous souhaitez cliquer.
-    await page.click(`#${buttonId}`);
-
-    //await page.waitForTimeout(5000); // Attendez 3 secondes.
-
-    try {
-      // Attendez que l'élément avec le sélecteur '.votre-selecteur' soit chargé dans la page.
-      await page.waitForSelector("#prices-table", {
-        visible: true,
-        timeout: 200,
-      }); // Vous pouvez ajuster le sélecteur et le timeout selon vos besoins.
-
-      // console.log('Élément chargé !');
-
-      const imageURL = await page.evaluate(() => {
-        const image = document.querySelector(
-          "#prices-table > tbody > tr > td:nth-child(1) > a:nth-child(1) > img"
-        );
-        return image ? image.src : null;
-      });
-
-      imgUrl = imageURL.split("?")[0];
-      // console.log('URL de l\'image :', imageURL.split('?')[0]);
-    } catch (error) {
-      console.error(
-        "L'élément n'a pas été trouvé ou n'a pas été chargé dans le délai imparti."
-      );
-    }
-
-    //#prices-table > tbody > tr > td:nth-child(1) > a:nth-child(1)
-
-    await browser.close();
-    return imgUrl;
-  },
-  getInfo: async (isbn) => {
-    const info = {};
-
-    console.log("ok");
-    const browser = await puppeteer.launch({ headless: false }); // Ouvre un navigateur headless
-    const page = await browser.newPage(); // Ouvre une nouvelle page
-
-    await page.goto("https://www.chasse-aux-livres.fr/estimation-de-livres"); // Navigue vers une URL
-
-    const elementId = "isbns-form-textarea"; // Remplacez par l'ID de l'élément que vous souhaitez sélectionner.
-
-    const textareaElement = await page.$(`#${elementId}`);
-
-    if (textareaElement) {
-      // L'élément textarea a été trouvé par son ID.
-      await textareaElement.click(); // Cliquez sur le textarea pour le mettre en surbrillance.
-      await page.keyboard.type(isbn); // Écrivez le contenu.
-
-      // Pour enregistrer une capture d'écran avec le contenu écrit, vous pouvez ajouter :
-      // await page.screenshot({ path: 'capture.png' });
-    } else {
-      console.log(`Élément avec l'ID ${elementId} non trouvé.`);
-    }
-
-    const buttonId = "isbns-form-submit"; // Remplacez par l'ID du bouton que vous souhaitez cliquer.
-    await page.click(`#${buttonId}`);
-
-    //await page.waitForTimeout(5000); // Attendez 3 secondes.
-
-    try {
-      // Attendez que l'élément avec le sélecteur '.votre-selecteur' soit chargé dans la page.
-      await page.waitForSelector("#prices-table", {
-        visible: true,
-        timeout: 200,
-      }); // Vous pouvez ajuster le sélecteur et le timeout selon vos besoins.
-
-      // console.log('Élément chargé !');
-
-      const imageURL = await page.evaluate(() => {
-        const image = document.querySelector(
-          "#prices-table > tbody > tr > td:nth-child(1) > a.ean-link"
-        );
-        return image ? image.href : null;
-      });
-      console.log(imageURL);
-      const page2 = await browser.newPage(); // Ouvre une nouvelle page
-      await page2.goto(imageURL); // Navigue vers une URL
-
- 
-
-
-
-
-      title = await page2.$eval(
-        "#book-title-and-details > div:nth-child(1) > h1.d-block.d-lg-none",
-        (element) => element.textContent
-      );
-      console.log(title);
-
-      author = await page2.$eval(
-        "#creators > span > a",
-        (element) => element.textContent
-      );
-
-      info.title = title;
-      info.author = author;
-      
-    } catch (error) {
-      console.error(
-        "L'élément n'a pas été trouvé ou n'a pas été chargé dans le délai imparti."
-      );
-    }
-
-    await browser.close();
-
-    return info
-   
-  },
+  }
 };
-
-//https://www.chasse-aux-livres.fr/search?query=9782253005360&catalog=fr
-
-//9782253005360
