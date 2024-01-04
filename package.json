@@ -9,7 +9,8 @@
     "csv": "node ./importToCsv/importToCsv.js",
     "scrap": "node ./scrapper/scrapper.js",
     "fetch": "node ./fetcher/fetcher.js ",
-    "dev": "node-dev index.js"
+    "dev": "node-dev index.js",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
