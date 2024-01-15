@@ -13,10 +13,10 @@ module.exports = {
       await monBouton.click();
 
       const email = await driver.findElement(By.id("email"));
-      await email.sendKeys("r.deldon@gmail.com");
+      await email.sendKeys("ericsss");
 
       const password = await driver.findElement(By.id("password"));
-      await password.sendKeys("z88csf");
+      await password.sendKeys("Deezertdeezert");
 
       const submit = await driver.findElement(
         By.xpath('//*[@id="login"]/button')
